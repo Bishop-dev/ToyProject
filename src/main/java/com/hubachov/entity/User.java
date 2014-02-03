@@ -1,5 +1,9 @@
 package com.hubachov.entity;
 
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -8,8 +12,8 @@ import java.util.Date;
 @Table(name = "User")
 public class User implements Serializable {
     private static final long serialVersionUID = 8266525488057072269L;
-	@Id
-	@Column(name = "user_id", unique = true, updatable = false, nullable = false)
+    @Id
+    @Column(name = "user_id", unique = true, updatable = false, nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "user_login", updatable = false, unique = true, length = 100)
@@ -121,20 +125,9 @@ public class User implements Serializable {
 
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result
-                + ((birthday == null) ? 0 : birthday.hashCode());
-        result = prime * result + ((email == null) ? 0 : email.hashCode());
-        result = prime * result
-                + ((firstName == null) ? 0 : firstName.hashCode());
-        result = prime * result
-                + ((lastName == null) ? 0 : lastName.hashCode());
-        result = prime * result + ((login == null) ? 0 : login.hashCode());
-        result = prime * result
-                + ((password == null) ? 0 : password.hashCode());
-        result = prime * result + ((role == null) ? 0 : role.hashCode());
-        return result;
+        return new HashCodeBuilder().append(this.id).append(this.login).append(this.password).
+                append(this.firstName).append(this.lastName).append(this.email).append(this.birthday).
+                append(this.role).toHashCode();
     }
 
     @Override
@@ -202,10 +195,7 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "User [id=" + id + ", login=" + login + ", password=" + password
-                + ", email=" + email + ", firstName=" + firstName
-                + ", lastName=" + lastName + ", birthday=" + birthday
-                + ", role=" + role + "]";
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
     }
 
     public static class UserBuilder {

@@ -1,8 +1,10 @@
 package com.hubachov.web.form;
 
-import java.text.SimpleDateFormat;
-
 import com.hubachov.entity.User;
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
+
+import java.text.SimpleDateFormat;
 
 public class UserForm {
     private long id;
@@ -144,16 +146,6 @@ public class UserForm {
 
     @Override
     public String toString() {
-        return "UserForm{" +
-                "id=" + id +
-                ", login='" + login + '\'' +
-                ", password='" + password + '\'' +
-                ", confirm='" + confirm + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", birthday='" + birthday + '\'' +
-                ", role='" + role + '\'' +
-                '}';
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
     }
 }

@@ -26,10 +26,10 @@ import com.hubachov.service.UserService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:test_config.xml")
-@TestExecutionListeners({ DbUnitTestExecutionListener.class,
+@TestExecutionListeners({DbUnitTestExecutionListener.class,
         DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class,
-        TransactionalTestExecutionListener.class })
+        TransactionalTestExecutionListener.class})
 public class HibernateUserDAOTest {
     private static final String FILE_DATASET = "/dataset.xml";
     @Autowired
@@ -136,55 +136,14 @@ public class HibernateUserDAOTest {
 
     @Test
     @DatabaseSetup(FILE_DATASET)
-    public void testDeleteNull() {
-        int before = 0;
-        try {
-            before = userService.findAll().size();
-        } catch (SQLException e) {
-            fail("Exception must not be");
-        }
-        try {
-            userService.remove(bob);
-        } catch (SQLException e) {
-            fail("Exception must not be");
-        }
-        int now = 0;
-        try {
-            now = userService.findAll().size();
-        } catch (SQLException e) {
-            fail("Exception must not be");
-        }
-        assertEquals("Amount of users in DB should not change", before, now);
-    }
-
-    @Test
-    @DatabaseSetup(FILE_DATASET)
     public void testDeleteNotNull() {
-        int before = 0;
-        try {
-            before = userService.findAll().size();
-        } catch (SQLException e) {
-            fail("Exception must not be");
-        }
-        User userToRemove = null;
-        try {
-            userToRemove = userService.findByLogin("user");
-        } catch (SQLException e) {
-            fail("Exception must not be");
-        }
-        try {
-            userService.remove(userToRemove);
-        } catch (SQLException e) {
-            fail("Exception must not be");
-        }
-        int now = 0;
-        try {
-            now = userService.findAll().size();
-        } catch (SQLException e) {
-            fail("Exception must not be");
-        }
+        int before = 0, now = 0;
         User check = null;
         try {
+            before = userService.findAll().size();
+            User userToRemove = userService.findByLogin("user");
+            userService.remove(userToRemove);
+            now = userService.findAll().size();
             check = userService.findByLogin("user");
         } catch (SQLException e) {
             fail("Exception must not be");
